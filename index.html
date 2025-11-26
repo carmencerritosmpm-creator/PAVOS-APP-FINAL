@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>PA’VO$ - Tu pisto, tu ritmo, tu control</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- HEADER GLOBAL -->
+    <header class="app-header">
+      <div class="app-header__greeting">
+        <p class="app-header__hello">Hola,</p>
+        <h1 class="app-header__name" id="userName">Chero de PA’VO$ 👋</h1>
+      </div>
+      <div class="app-header__actions">
+        <button class="icon-button" aria-label="Buscar">
+          🔍
+        </button>
+        <button class="icon-button" aria-label="Perfil y ajustes">
+          ⚙️
+        </button>
+      </div>
+    </header>
+
+    <!-- NAV TABS -->
+    <nav class="tab-nav">
+      <button class="tab-nav__item tab-nav__item--active" data-screen="dashboard">
+        <span>🏠</span>
+        <span>Inicio</span>
+      </button>
+      <button class="tab-nav__item" data-screen="movements">
+        <span>📋</span>
+        <span>Movimientos</span>
+      </button>
+      <button class="tab-nav__item" data-screen="savings">
+        <span>💰</span>
+        <span>Ahorro</span>
+      </button>
+      <button class="tab-nav__item" data-screen="more">
+        <span>⋯</span>
+        <span>Más</span>
+      </button>
+    </nav>
+
+    <!-- FAB -->
+    <button class="fab" aria-label="Agregar movimiento" id="fabButton">
+      ＋
+    </button>
+
+    <main class="screens">
+      <!-- SCREEN 1: DASHBOARD -->
+      <section class="screen screen--active" id="screen-dashboard">
+        <!-- SALDO ACTUAL -->
+        <section class="card card--balance">
+          <div>
+            <p class="card-label">Saldo actual</p>
+            <p class="card-balance" id="currentBalance">$4,570.80</p>
+            <p class="card-sub">
+              Este mes has ahorrado <strong id="currentSavings">$482.40</strong>
+            </p>
+          </div>
+          <button class="circle-button" aria-label="Agregar movimiento" id="addMovementFromBalance">
+            ＋
+          </button>
+        </section>
+
+        <!-- RESUMEN RÁPIDO -->
+        <section class="card card--summary">
+          <h2 class="section-title">Resumen del mes</h2>
+          <div class="summary-chips">
+            <div class="summary-chip">
+              <p class="summary-chip__label">Ingresos</p>
+              <p class="summary-chip__value" id="totalIncome">+$1,250.00</p>
+            </div>
+            <div class="summary-chip">
+              <p class="summary-chip__label">Gastos</p>
+              <p class="summary-chip__value summary-chip__value--expense" id="totalExpenses">-$768.00</p>
+            </div>
+            <div class="summary-chip">
+              <p class="summary-chip__label">Ahorro</p>
+              <p class="summary-chip__value" id="totalSavings">+$482.00</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRÓXIMOS PAGOS -->
+        <section class="section-block">
+          <div class="section-block__header">
+            <h2 class="section-title">Próximos pagos</h2>
+            <button class="link-button">Ver todo</button>
+          </div>
+          <div class="cards-row">
+            <article class="mini-card mini-card--accent">
+              <p class="mini-card__title">Netflix</p>
+              <p class="mini-card__amount">$9.99 / mes</p>
+              <p class="mini-card__meta">En 3 días</p>
+            </article>
+            <article class="mini-card">
+              <p class="mini-card__title">Plan de datos</p>
+              <p class="mini-card__amount">$25.00 / mes</p>
+              <p class="mini-card__meta">En 5 días</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- MOVIMIENTOS RECIENTES -->
+        <section class="section-block">
+          <div class="section-block__header">
+            <h2 class="section-title">Movimientos recientes</h2>
+            <button class="link-button">Ver todo</button>
+          </div>
+          <ul class="movement-list" id="movementList">
+            <li class="movement-item">
+              <div class="movement-item__icon movement-item__icon--food">🍔</div>
+              <div class="movement-item__info">
+                <p class="movement-item__title">Comida fuera de casa</p>
+                <p class="movement-item__meta">Hoy · Categoría: Comida</p>
+              </div>
+              <p class="movement-item__amount movement-item__amount--expense">-$7.50</p>
+            </li>
+            <li class="movement-item">
+              <div class="movement-item__icon movement-item__icon--income">💸</div>
+              <div class="movement-item__info">
+                <p class="movement-item__title">Pago freelance</p>
+                <p class="movement-item__meta">Ayer · Categoría: Ingreso</p>
+              </div>
+              <p class="movement-item__amount movement-item__amount--income">+$120.00</p>
+            </li>
+          </ul>
+        </section>
+      </section>
+
+      <!-- SCREEN 2: MOVIMIENTOS / NUEVO MOVIMIENTO -->
+      <section class="screen" id="screen-movements">
+        <section class="card card--subtitle">
+          <h2 class="section-title">Nuevo movimiento</h2>
+          <p class="section-subtitle">
+            Apuntá tu ingreso, gasto o ahorro en segundos.
+          </p>
+        </section>
+
+        <!-- TIPO DE MOVIMIENTO -->
+        <section class="pill-toggle" id="movementTypeToggle">
+          <button class="pill-toggle__item pill-toggle__item--active" data-type="gasto">Gasto</button>
+          <button class="pill-toggle__item" data-type="ingreso">Ingreso</button>
+          <button class="pill-toggle__item" data-type="ahorro">Ahorro a meta</button>
+        </section>
+
+        <!-- FORMULARIO -->
+        <form class="form" id="movementForm">
+          <label class="form-field">
+            <span>Monto</span>
+            <input id="amountInput" type="number" step="0.01" min="0" inputmode="decimal" placeholder="0.00" required />
+          </label>
+
+          <label class="form-field">
+            <span>Categoría</span>
+            <select id="categorySelect" required>
+              <option value="Comida">Comida</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Básicos del hogar">Básicos del hogar</option>
+              <option value="Estudios">Estudios</option>
+              <option value="Gustitos">Gustitos</option>
+              <option value="Salud">Salud</option>
+              <option value="Otros">Otros</option>
+            </select>
+          </label>
+
+          <label class="form-field">
+            <span>Fecha</span>
+            <input id="dateInput" type="date" />
+          </label>
+
+          <label class="form-field">
+            <span>Notas (opcional)</span>
+            <input id="notesInput" type="text" placeholder="Ej: cena con amigis" />
+          </label>
+
+          <button type="submit" class="primary-button">
+            Guardar movimiento
+          </button>
+        </form>
+      </section>
+
+      <!-- SCREEN 3: AHORRO & METAS -->
+      <section class="screen" id="screen-savings">
+        <section class="card card--balance card--savings">
+          <div class="card-donut">
+            <div class="card-donut__circle">
+              <div class="card-donut__inner">
+                <p class="card-donut__label">Has ahorrado</p>
+                <p class="card-donut__value" id="savingsDonutValue">$2,482</p>
+                <p class="card-donut__meta">Meta total: $3,000</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <div class="section-block__header">
+            <h2 class="section-title">Tus metas</h2>
+            <button class="link-button">Crear nueva meta</button>
+          </div>
+
+          <div class="goal-list">
+            <article class="goal-card">
+              <div class="goal-card__header">
+                <h3>Viaje a la playa</h3>
+                <span class="goal-card__percent">65%</span>
+              </div>
+              <p class="goal-card__meta">Llevás $325 de $500</p>
+              <div class="progress-bar">
+                <div class="progress-bar__fill" style="width: 65%;"></div>
+              </div>
+              <p class="goal-card__deadline">Fecha límite: 31/08/2025</p>
+            </article>
+
+            <article class="goal-card">
+              <div class="goal-card__header">
+                <h3>Fondo de emergencia</h3>
+                <span class="goal-card__percent">20%</span>
+              </div>
+              <p class="goal-card__meta">Llevás $200 de $1,000</p>
+              <div class="progress-bar">
+                <div class="progress-bar__fill" style="width: 20%;"></div>
+              </div>
+              <p class="goal-card__deadline">Meta abierta</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <h2 class="section-title">Acciones rápidas</h2>
+          <div class="quick-menu">
+            <button class="quick-menu__item">
+              Agregar a una meta
+            </button>
+            <button class="quick-menu__item">
+              Ver historial de ahorro
+            </button>
+            <button class="quick-menu__item">
+              Ajustar metas
+            </button>
+          </div>
+        </section>
+      </section>
+
+      <!-- SCREEN 4: MÁS / CONFIG -->
+      <section class="screen" id="screen-more">
+        <section class="card card--subtitle">
+          <h2 class="section-title">Más de PA’VO$</h2>
+          <p class="section-subtitle">
+            Tips, configuración, y todo lo que necesitás pa’ llevar el pisto sin estrés.
+          </p>
+        </section>
+
+        <ul class="settings-list">
+          <li class="settings-item">Perfil y datos personales</li>
+          <li class="settings-item">Recordatorios y notificaciones</li>
+          <li class="settings-item">Categorías personalizadas</li>
+          <li class="settings-item">Tips de ahorro sin regaños</li>
+          <li class="settings-item">Acerca de PA’VO$</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
