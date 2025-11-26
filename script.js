@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     updateUI();
-
+    //CAMBIO PRUEBA//
     // Crear item en movimientos recientes
     const li = document.createElement("li");
     li.className = "movement-item";
