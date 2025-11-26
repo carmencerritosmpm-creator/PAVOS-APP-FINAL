@@ -12,8 +12,8 @@
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Poppins",
     sans-serif;
-  background: #0d2f23; /* verde oscuro de fondo */
-  color: #0f1f1a;
+  background: #103a2c; /* verde oscuro de fondo */
+  color: #0c1a15;
   display: flex;
   justify-content: center;
 }
