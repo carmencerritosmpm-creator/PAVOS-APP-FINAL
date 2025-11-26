@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     });
   }
-
+//Holaaa//
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       const screenKey = tab.dataset.screen;
