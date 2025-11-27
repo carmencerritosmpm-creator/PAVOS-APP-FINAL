@@ -10,15 +10,46 @@
   <div class="app-shell">
     <!-- HEADER GLOBAL -->
     <header class="app-header">
+      <main>
+            <!-- PANEL DE NOTIFICACIONES -->
+    <div class="notif-panel notif-panel--hidden" id="notifPanel">
+      <div class="notif-panel__header">
+        <h2 class="notif-panel__title">Notificaciones</h2>
+        <button class="notif-panel__close" id="notifCloseButton" aria-label="Cerrar notificaciones">×</button>
+      </div>
+      <div class="notif-panel__body" id="notifList">
+        <!-- Notificaciones dinámicas -->
+      </div>
+    </div>
+
+    <!-- MENÚ LATERAL (AJUSTES) -->
+    <div class="side-menu-overlay side-menu-overlay--hidden" id="sideMenuOverlay">
+      <aside class="side-menu" id="sideMenu">
+        <div class="side-menu__header">
+          <div class="side-menu__avatar" id="sideMenuAvatar">PA</div>
+          <div class="side-menu__user">
+            <p class="side-menu__nick" id="sideMenuNick">@chelodepavos</p>
+            <p class="side-menu__name" id="sideMenuName">Chero de PA’VO$</p>
+          </div>
+        </div>
+        <nav class="side-menu__nav">
+          <button class="side-menu__item" data-action="editProfile">Editar nombre y avatar</button>
+          <button class="side-menu__item" data-action="help">Ayuda / Sobre PA’VO$</button>
+          <button class="side-menu__item" data-action="logout">Salir</button>
+        </nav>
+      </aside>
+    </div>
+
+      </main>
       <div class="app-header__greeting">
         <p class="app-header__hello">Hola,</p>
         <h1 class="app-header__name" id="userName">Chero de PA’VO$ 👋</h1>
       </div>
       <div class="app-header__actions">
-        <button class="icon-button" aria-label="Buscar">
-          🔍
+        <button class="icon-button" id="notifButton" aria-label="Notificaciones">
+          🔔
         </button>
-        <button class="icon-button" aria-label="Perfil y ajustes">
+        <button class="icon-button" id="settingsButton" aria-label="Perfil y ajustes">
           ⚙️
         </button>
       </div>
@@ -56,14 +87,11 @@
         <section class="card card--balance">
           <div>
             <p class="card-label">Saldo actual</p>
-            <p class="card-balance" id="currentBalance">$4,570.80</p>
+            <p class="card-balance" id="currentBalance">$0.00</p>
             <p class="card-sub">
-              Este mes has ahorrado: <strong id="currentSavings">$482.40</strong>
+              Este mes has ahorrado <strong id="currentSavings">$0.00</strong>
             </p>
           </div>
-          <button class="circle-button" aria-label="Agregar movimiento" id="addMovementFromBalance">
-            ＋
-          </button>
         </section>
 
         <!-- RESUMEN RÁPIDO -->
@@ -72,15 +100,15 @@
           <div class="summary-chips">
             <div class="summary-chip">
               <p class="summary-chip__label">Ingresos</p>
-              <p class="summary-chip__value" id="totalIncome">+$1,250.00</p>
+              <p class="summary-chip__value" id="totalIncome">+$0.00</p>
             </div>
             <div class="summary-chip">
               <p class="summary-chip__label">Gastos</p>
-              <p class="summary-chip__value summary-chip__value--expense" id="totalExpenses">-$768.00</p>
+              <p class="summary-chip__value summary-chip__value--expense" id="totalExpenses">-$0.00</p>
             </div>
             <div class="summary-chip">
               <p class="summary-chip__label">Ahorro</p>
-              <p class="summary-chip__value" id="totalSavings">+$482.00</p>
+              <p class="summary-chip__value" id="totalSavings">+$0.00</p>
             </div>
           </div>
         </section>
@@ -89,51 +117,80 @@
         <section class="section-block">
           <div class="section-block__header">
             <h2 class="section-title">Próximos pagos</h2>
-            <button class="link-button">Ver todo</button>
+            <button class="link-button" id="seeAllUpcoming">Ver todo</button>
           </div>
-          <div class="cards-row">
-            <article class="mini-card mini-card--accent">
-              <p class="mini-card__title">Netflix</p>
-              <p class="mini-card__amount">$9.99 / mes</p>
-              <p class="mini-card__meta">En 3 días</p>
-            </article>
-            <article class="mini-card">
-              <p class="mini-card__title">Plan de datos</p>
-              <p class="mini-card__amount">$25.00 / mes</p>
-              <p class="mini-card__meta">En 5 días</p>
-            </article>
+          <div class="cards-row" id="upcomingList">
+            <!-- Se rellena dinámicamente con pagos futuros -->
           </div>
+          <p class="empty-hint" id="noUpcomingHint">
+            Aún no tenés pagos programados. Agregá un gasto con fecha futura y aparecerá aquí.
+          </p>
         </section>
 
         <!-- MOVIMIENTOS RECIENTES -->
         <section class="section-block">
           <div class="section-block__header">
             <h2 class="section-title">Movimientos recientes</h2>
-            <button class="link-button">Ver todo</button>
+            <button class="link-button" id="seeAllMovements">Ver todo</button>
           </div>
           <ul class="movement-list" id="movementList">
-            <li class="movement-item">
-              <div class="movement-item__icon movement-item__icon--food">🍔</div>
-              <div class="movement-item__info">
-                <p class="movement-item__title">Comida fuera de casa</p>
-                <p class="movement-item__meta">Hoy · Categoría: Comida</p>
-              </div>
-              <p class="movement-item__amount movement-item__amount--expense">-$7.50</p>
-            </li>
-            <li class="movement-item">
-              <div class="movement-item__icon movement-item__icon--income">💸</div>
-              <div class="movement-item__info">
-                <p class="movement-item__title">Pago freelance</p>
-                <p class="movement-item__meta">Ayer · Categoría: Ingreso</p>
-              </div>
-              <p class="movement-item__amount movement-item__amount--income">+$120.00</p>
-            </li>
+            <!-- Movimientos dinámicos -->
           </ul>
+          <p class="empty-hint" id="noMovementsHint">
+            Todavía no has registrado movimientos. Empezá tocando el botón +.
+          </p>
         </section>
       </section>
 
-      <!-- SCREEN 2: MOVIMIENTOS / NUEVO MOVIMIENTO -->
+      
+      <!-- SCREEN 2: HISTORIAL DE MOVIMIENTOS -->
       <section class="screen" id="screen-movements">
+        <section class="card card--subtitle">
+          <h2 class="section-title">Historial de movimientos</h2>
+          <p class="section-subtitle">
+            Revisá todos tus ingresos, gastos y ahorros en un solo lugar.
+          </p>
+        </section>
+
+        <section class="card card--summary">
+          <h2 class="section-title">Resumen rápido</h2>
+          <div class="summary-chips summary-chips--compact">
+            <div class="summary-chip">
+              <p class="summary-chip__label">Ingresos</p>
+              <p class="summary-chip__value" id="historyIncomeTotal">+$0.00</p>
+            </div>
+            <div class="summary-chip">
+              <p class="summary-chip__label">Gastos</p>
+              <p class="summary-chip__value" id="historyExpenseTotal">-$0.00</p>
+            </div>
+            <div class="summary-chip">
+              <p class="summary-chip__label">Ahorro</p>
+              <p class="summary-chip__value" id="historySavingsTotal">+$0.00</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <div class="pill-toggle pill-toggle--filters" id="movementFilterToggle">
+            <button class="pill-toggle__item pill-toggle__item--active" data-filter="todos">Todos</button>
+            <button class="pill-toggle__item" data-filter="ingreso">Ingresos</button>
+            <button class="pill-toggle__item" data-filter="gasto">Gastos</button>
+            <button class="pill-toggle__item" data-filter="ahorro">Ahorro</button>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <ul class="movement-list" id="movementListFull">
+            <!-- Historial completo -->
+          </ul>
+          <p class="empty-hint" id="noMovementsFullHint">
+            Aquí vas a ver tu historial cuando empieces a registrar movimientos.
+          </p>
+        </section>
+      </section>
+
+<!-- SCREEN 3: NUEVO MOVIMIENTO -->
+      <section class="screen" id="screen-new-movement">
         <section class="card card--subtitle">
           <h2 class="section-title">Nuevo movimiento</h2>
           <p class="section-subtitle">
@@ -178,6 +235,13 @@
             <input id="notesInput" type="text" placeholder="Ej: cena con amigis" />
           </label>
 
+          <label class="form-field form-field--goal" id="goalField">
+            <span>Meta de ahorro</span>
+            <select id="goalSelect">
+              <!-- Se rellena dinámicamente -->
+            </select>
+          </label>
+
           <button type="submit" class="primary-button">
             Guardar movimiento
           </button>
@@ -188,12 +252,29 @@
       <section class="screen" id="screen-savings">
         <section class="card card--balance card--savings">
           <div class="card-donut">
-            <div class="card-donut__circle">
+            <div class="card-donut__circle" id="savingsDonutCircle">
               <div class="card-donut__inner">
                 <p class="card-donut__label">Has ahorrado</p>
-                <p class="card-donut__value" id="savingsDonutValue">$2,482</p>
-                <p class="card-donut__meta">Meta total: $3,000</p>
+                <p class="card-donut__value" id="savingsDonutValue">$0</p>
+                <p class="card-donut__meta" id="savingsGoalMeta">Meta total: $3000</p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-block">
+          <h2 class="section-title">Tips de ahorro sin regaños</h2>
+          <p class="section-subtitle">
+            Consejitos cortos y realistas para que ahorrar se sienta chivo, no castigo.
+          </p>
+          <div class="tips-card">
+            <div class="tips-bubbles" id="tipsBubbles">
+              <!-- Burbujas dinámicas -->
+            </div>
+            <div class="tips-actions">
+              <button class="link-button tips-card__button" id="nextTipButton">
+                Siguiente tip
+              </button>
             </div>
           </div>
         </section>
@@ -201,53 +282,31 @@
         <section class="section-block">
           <div class="section-block__header">
             <h2 class="section-title">Tus metas</h2>
-            <button class="link-button">Crear nueva meta</button>
+            <button class="link-button" id="createGoalButton">Crear nueva meta</button>
           </div>
 
-          <div class="goal-list">
-            <article class="goal-card">
-              <div class="goal-card__header">
-                <h3>Viaje a la playa</h3>
-                <span class="goal-card__percent">65%</span>
-              </div>
-              <p class="goal-card__meta">Llevás $325 de $500</p>
-              <div class="progress-bar">
-                <div class="progress-bar__fill" style="width: 65%;"></div>
-              </div>
-              <p class="goal-card__deadline">Fecha límite: 31/08/2025</p>
-            </article>
-
-            <article class="goal-card">
-              <div class="goal-card__header">
-                <h3>Fondo de emergencia</h3>
-                <span class="goal-card__percent">20%</span>
-              </div>
-              <p class="goal-card__meta">Llevás $200 de $1,000</p>
-              <div class="progress-bar">
-                <div class="progress-bar__fill" style="width: 20%;"></div>
-              </div>
-              <p class="goal-card__deadline">Meta abierta</p>
-            </article>
+          <div class="goal-list" id="goalList">
+            <!-- Metas se agregan por JS -->
           </div>
         </section>
 
         <section class="section-block">
           <h2 class="section-title">Acciones rápidas</h2>
           <div class="quick-menu">
-            <button class="quick-menu__item">
+            <button class="quick-menu__item" id="quickAddSaving">
               Agregar a una meta
             </button>
-            <button class="quick-menu__item">
+            <button class="quick-menu__item" id="quickViewSavingsHistory">
               Ver historial de ahorro
             </button>
-            <button class="quick-menu__item">
+            <button class="quick-menu__item" id="quickAdjustGoals">
               Ajustar metas
             </button>
           </div>
         </section>
       </section>
 
-      <!-- SCREEN 4: MÁS / CONFIG -->
+      <!-- SCREEN 4: MÁS / CONFIG + TIPS -->
       <section class="screen" id="screen-more">
         <section class="card card--subtitle">
           <h2 class="section-title">Más de PA’VO$</h2>
@@ -260,11 +319,16 @@
           <li class="settings-item">Perfil y datos personales</li>
           <li class="settings-item">Recordatorios y notificaciones</li>
           <li class="settings-item">Categorías personalizadas</li>
-          <li class="settings-item">Tips de ahorro sin regaños</li>
           <li class="settings-item">Acerca de PA’VO$</li>
         </ul>
       </section>
-    </main>
+  
+
+  <!-- MODAL GENÉRICO -->
+  <div class="modal-overlay modal-overlay--hidden" id="modalOverlay">
+    <div class="modal" id="modalContainer">
+      <!-- Contenido dinámico -->
+    </div>
   </div>
 
   <script src="script.js"></script>
