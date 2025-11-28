@@ -10,37 +10,6 @@
   <div class="app-shell">
     <!-- HEADER GLOBAL -->
     <header class="app-header">
-      <main>
-            <!-- PANEL DE NOTIFICACIONES -->
-    <div class="notif-panel notif-panel--hidden" id="notifPanel">
-      <div class="notif-panel__header">
-        <h2 class="notif-panel__title">Notificaciones</h2>
-        <button class="notif-panel__close" id="notifCloseButton" aria-label="Cerrar notificaciones">×</button>
-      </div>
-      <div class="notif-panel__body" id="notifList">
-        <!-- Notificaciones dinámicas -->
-      </div>
-    </div>
-
-    <!-- MENÚ LATERAL (AJUSTES) -->
-    <div class="side-menu-overlay side-menu-overlay--hidden" id="sideMenuOverlay">
-      <aside class="side-menu" id="sideMenu">
-        <div class="side-menu__header">
-          <div class="side-menu__avatar" id="sideMenuAvatar">PA</div>
-          <div class="side-menu__user">
-            <p class="side-menu__nick" id="sideMenuNick">@chelodepavos</p>
-            <p class="side-menu__name" id="sideMenuName">Chero de PA’VO$</p>
-          </div>
-        </div>
-        <nav class="side-menu__nav">
-          <button class="side-menu__item" data-action="editProfile">Editar nombre y avatar</button>
-          <button class="side-menu__item" data-action="help">Ayuda / Sobre PA’VO$</button>
-          <button class="side-menu__item" data-action="logout">Salir</button>
-        </nav>
-      </aside>
-    </div>
-
-      </main>
       <div class="app-header__greeting">
         <p class="app-header__hello">Hola,</p>
         <h1 class="app-header__name" id="userName">Chero de PA’VO$ 👋</h1>
@@ -92,6 +61,9 @@
               Este mes has ahorrado <strong id="currentSavings">$0.00</strong>
             </p>
           </div>
+          <button class="circle-button" aria-label="Agregar movimiento" id="addMovementFromBalance">
+            ＋
+          </button>
         </section>
 
         <!-- RESUMEN RÁPIDO -->
@@ -142,55 +114,8 @@
         </section>
       </section>
 
-      
-      <!-- SCREEN 2: HISTORIAL DE MOVIMIENTOS -->
+      <!-- SCREEN 2: MOVIMIENTOS / NUEVO MOVIMIENTO -->
       <section class="screen" id="screen-movements">
-        <section class="card card--subtitle">
-          <h2 class="section-title">Historial de movimientos</h2>
-          <p class="section-subtitle">
-            Revisá todos tus ingresos, gastos y ahorros en un solo lugar.
-          </p>
-        </section>
-
-        <section class="card card--summary">
-          <h2 class="section-title">Resumen rápido</h2>
-          <div class="summary-chips summary-chips--compact">
-            <div class="summary-chip">
-              <p class="summary-chip__label">Ingresos</p>
-              <p class="summary-chip__value" id="historyIncomeTotal">+$0.00</p>
-            </div>
-            <div class="summary-chip">
-              <p class="summary-chip__label">Gastos</p>
-              <p class="summary-chip__value" id="historyExpenseTotal">-$0.00</p>
-            </div>
-            <div class="summary-chip">
-              <p class="summary-chip__label">Ahorro</p>
-              <p class="summary-chip__value" id="historySavingsTotal">+$0.00</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="section-block">
-          <div class="pill-toggle pill-toggle--filters" id="movementFilterToggle">
-            <button class="pill-toggle__item pill-toggle__item--active" data-filter="todos">Todos</button>
-            <button class="pill-toggle__item" data-filter="ingreso">Ingresos</button>
-            <button class="pill-toggle__item" data-filter="gasto">Gastos</button>
-            <button class="pill-toggle__item" data-filter="ahorro">Ahorro</button>
-          </div>
-        </section>
-
-        <section class="section-block">
-          <ul class="movement-list" id="movementListFull">
-            <!-- Historial completo -->
-          </ul>
-          <p class="empty-hint" id="noMovementsFullHint">
-            Aquí vas a ver tu historial cuando empieces a registrar movimientos.
-          </p>
-        </section>
-      </section>
-
-<!-- SCREEN 3: NUEVO MOVIMIENTO -->
-      <section class="screen" id="screen-new-movement">
         <section class="card card--subtitle">
           <h2 class="section-title">Nuevo movimiento</h2>
           <p class="section-subtitle">
@@ -322,7 +247,38 @@
           <li class="settings-item">Acerca de PA’VO$</li>
         </ul>
       </section>
-  
+
+    <!-- PANEL DE NOTIFICACIONES -->
+    <div class="notif-panel notif-panel--hidden" id="notifPanel">
+      <div class="notif-panel__header">
+        <h2 class="notif-panel__title">Notificaciones</h2>
+        <button class="notif-panel__close" id="notifCloseButton" aria-label="Cerrar notificaciones">×</button>
+      </div>
+      <div class="notif-panel__body" id="notifList">
+        <!-- Notificaciones dinámicas -->
+      </div>
+    </div>
+
+    <!-- MENÚ LATERAL (AJUSTES) -->
+    <div class="side-menu-overlay side-menu-overlay--hidden" id="sideMenuOverlay">
+      <aside class="side-menu" id="sideMenu">
+        <div class="side-menu__header">
+          <div class="side-menu__avatar" id="sideMenuAvatar">PA</div>
+          <div class="side-menu__user">
+            <p class="side-menu__nick" id="sideMenuNick">@chelodepavos</p>
+            <p class="side-menu__name" id="sideMenuName">Chero de PA’VO$</p>
+          </div>
+        </div>
+        <nav class="side-menu__nav">
+          <button class="side-menu__item" data-action="editProfile">Editar nombre y avatar</button>
+          <button class="side-menu__item" data-action="help">Ayuda / Sobre PA’VO$</button>
+          <button class="side-menu__item" data-action="logout">Salir</button>
+        </nav>
+      </aside>
+    </div>
+
+    </main>
+  </div>
 
   <!-- MODAL GENÉRICO -->
   <div class="modal-overlay modal-overlay--hidden" id="modalOverlay">
