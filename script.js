@@ -1,4 +1,4 @@
-// PA’VO$ v3 - Navegación, movimientos, ahorro, metas, historial, tips burbuja
+// PA’VO$ PARTE LEI
 
 document.addEventListener("DOMContentLoaded", () => {
   // --- ELEMENTOS BASE ---
