@@ -5,19 +5,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const tabs = document.querySelectorAll(".tab-nav__item");
   const screens = document.querySelectorAll(".screen");
   const fabButton = document.getElementById("fabButton");
+  const addFromBalance = document.getElementById("addMovementFromBalance");
   const movementTypeToggle = document.getElementById("movementTypeToggle");
   const movementForm = document.getElementById("movementForm");
   const movementList = document.getElementById("movementList");
   const noMovementsHint = document.getElementById("noMovementsHint");
-
-  // Historial completo
-  const movementListFull = document.getElementById("movementListFull");
-  const noMovementsFullHint = document.getElementById("noMovementsFullHint");
-  const historyIncomeTotalEl = document.getElementById("historyIncomeTotal");
-  const historyExpenseTotalEl = document.getElementById("historyExpenseTotal");
-  const historySavingsTotalEl = document.getElementById("historySavingsTotal");
-  const movementFilterToggle = document.getElementById("movementFilterToggle");
-  const seeAllMovementsButton = document.getElementById("seeAllMovements");
 
   const upcomingList = document.getElementById("upcomingList");
   const noUpcomingHint = document.getElementById("noUpcomingHint");
@@ -79,8 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let totalExpenses = 0;
   let totalSavings = 0;
   let currentBalance = 0;
-
-  let currentHistoryFilter = "todos";
 
   let currentType = "gasto";
 
@@ -170,18 +160,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-
-  if (seeAllMovementsButton) {
-    seeAllMovementsButton.addEventListener("click", () => {
-      showScreen("screen-movements");
-      renderMovementsHistory();
-    });
-  }
-
-  const goToNewMovement = () => showScreen("screen-new-movement");
-  if (fabButton) {
-    fabButton.addEventListener("click", goToNewMovement);
-  }
+  const goToMovements = () => showScreen("screen-movements");
+  fabButton.addEventListener("click", goToMovements);
+  addFromBalance.addEventListener("click", goToMovements);
 
   // --- TIPO DE MOVIMIENTO ---
   movementTypeToggle.querySelectorAll(".pill-toggle__item").forEach((btn) => {
@@ -434,93 +415,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       movementList.appendChild(li);
     });
-
-  function renderMovementsHistory() {
-    if (!movementListFull || !noMovementsFullHint) return;
-
-    movementListFull.innerHTML = "";
-
-    let filtered = [...movements];
-
-    if (currentHistoryFilter !== "todos") {
-      filtered = filtered.filter((m) => m.type === currentHistoryFilter);
-    }
-
-    filtered.sort((a, b) => (a.date < b.date ? 1 : -1));
-
-    if (filtered.length === 0) {
-      noMovementsFullHint.style.display = "block";
-    } else {
-      noMovementsFullHint.style.display = "none";
-    }
-
-    // Resumen superior (usamos los totales globales ya calculados)
-    if (historyIncomeTotalEl)
-      historyIncomeTotalEl.textContent = formatCurrency(totalIncome, "+");
-    if (historyExpenseTotalEl)
-      historyExpenseTotalEl.textContent = formatCurrency(totalExpenses, "-");
-    if (historySavingsTotalEl)
-      historySavingsTotalEl.textContent = formatCurrency(totalSavings, "+");
-
-    filtered.forEach((m) => {
-      const li = document.createElement("li");
-      li.className = "movement-item";
-
-      const iconDiv = document.createElement("div");
-      iconDiv.className = "movement-item__icon";
-
-      if (m.type === "gasto") {
-        iconDiv.classList.add("movement-item__icon--food");
-        iconDiv.textContent = "💸";
-      } else if (m.type === "ingreso") {
-        iconDiv.classList.add("movement-item__icon--income");
-        iconDiv.textContent = "💰";
-      } else {
-        iconDiv.classList.add("movement-item__icon--income");
-        iconDiv.textContent = "📥";
-      }
-
-      const infoDiv = document.createElement("div");
-      infoDiv.className = "movement-item__info";
-
-      const titleP = document.createElement("p");
-      titleP.className = "movement-item__title";
-      titleP.textContent = m.notes || m.category;
-
-      const metaP = document.createElement("p");
-      metaP.className = "movement-item__meta";
-      const dateLabel = toDisplayDate(m.date);
-      const goalLabel =
-        m.type === "ahorro" && m.goalId != null
-          ? ` · Meta: ${goals.find((g) => g.id === m.goalId)?.name || "General"}`
-          : "";
-      metaP.textContent = `${dateLabel} · Categoría: ${m.category}${goalLabel}`;
-
-      infoDiv.appendChild(titleP);
-      infoDiv.appendChild(metaP);
-
-      const amountP = document.createElement("p");
-      amountP.className = "movement-item__amount";
-
-      if (m.type === "ingreso") {
-        amountP.classList.add("movement-item__amount--income");
-        amountP.textContent = formatCurrency(m.amount, "+");
-      } else if (m.type === "gasto") {
-        amountP.classList.add("movement-item__amount--expense");
-        amountP.textContent = formatCurrency(m.amount, "-");
-      } else {
-        amountP.classList.add("movement-item__amount--income");
-        amountP.textContent = formatCurrency(m.amount, "+");
-      }
-
-      li.appendChild(iconDiv);
-      li.appendChild(infoDiv);
-      li.appendChild(amountP);
-
-      movementListFull.appendChild(li);
-    });
-  }
-
   }
 
   
@@ -838,7 +732,6 @@ function renderUpcoming() {
         recalcSavingsGoalFromGoals();
         updateTotals();
         renderMovements();
-        renderMovementsHistory();
         renderUpcoming();
         renderGoals();
         closeModal();
@@ -1081,7 +974,6 @@ function renderUpcoming() {
 
     updateTotals();
     renderMovements();
-    renderMovementsHistory();
     renderUpcoming();
     renderGoals();
 
@@ -1170,26 +1062,9 @@ function renderUpcoming() {
     syncGoalSelect();
     renderGoals();
     renderMovements();
-    renderMovementsHistory();
     renderUpcoming();
     updateTotals();
   }
-
-  
-
-  // Filtros en historial de movimientos
-  if (movementFilterToggle) {
-    const filterButtons = movementFilterToggle.querySelectorAll(".pill-toggle__item");
-    filterButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        filterButtons.forEach((b) => b.classList.remove("pill-toggle__item--active"));
-        btn.classList.add("pill-toggle__item--active");
-        currentHistoryFilter = btn.dataset.filter || "todos";
-        renderMovementsHistory();
-      });
-    });
-  }
-
 
   // --- INIT ---
   seedDemoData();
@@ -1245,4 +1120,3 @@ function renderUpcoming() {
     }
   }
 });
-
